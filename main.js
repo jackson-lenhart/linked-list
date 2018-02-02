@@ -21,21 +21,24 @@ function LinkedList(seed) {
       temp.next = Node(seed[i]);
       temp = temp.next;
     }
-  } else if (Object.prototype.toString.call(seed) === "[object Object]") {
+  // when seed is an object literal that should mean we are making a copy
+} else if (seed.toString() === "[object Object]") {
     head = seed;
   } else {
     head = Node(seed);
   }
 
   return {
+    dup: () =>
+      LinkedList({
+        ...head
+      }),
     map: f => {
-      let _head = Object.assign({}, head);
-      let temp = _head;
+      let temp = head;
       while (temp) {
         temp.value = f(temp.value);
         temp = temp.next;
       }
-      return LinkedList(_head);
     },
     render: () => {
       let temp = head;
@@ -49,13 +52,11 @@ function LinkedList(seed) {
       }
     },
     push: x => {
-      let _head = Object.assign({}, head);
-      let temp = _head;
+      let temp = head;
       while (temp.next) {
         temp = temp.next;
       }
       temp.next = Node(x);
-      return LinkedList(_head);
     },
     contains: x => {
       let temp = head;
