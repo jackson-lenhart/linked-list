@@ -16,7 +16,7 @@ function Result(passed, msg) {
 const NUMS = LinkedList([1, 2, 3]);
 
 [
-  function copy() {
+  function copiesNums() {
     let numsCopy = NUMS.copy();
 
     if (!numsCopy.isValid() || !NUMS.isValid()) {
@@ -55,12 +55,34 @@ const NUMS = LinkedList([1, 2, 3]);
         `created valid duplicate of NUMS`
       );
   },
+  function mapsAddition() {
+    let numsCopy = NUMS.copy();
+
+    numsCopy.map(x => x + 1);
+    let expectedValues = [2, 3, 4];
+    let temp = numsCopy.head;
+    let i = 0;
+    while (temp) {
+      if (temp.value !== expectedValues[i]) {
+        return Result(
+          false,
+          "values not all correct"
+        );
+      }
+      temp = temp.next;
+      i++;
+    }
+    return Result(
+      true,
+      "values map correctly"
+    );
+  }
 ].forEach(f => {
   let r = f();
   r.passed ?
     console.log(
       `${f.name} passed: ${r.msg}`.green
     ) : console.log(
-      `${f.name} failed: ${new Error(r.msg)}`.red
+      `${f.name} failed: ${r.msg}`.red
     );
 });
