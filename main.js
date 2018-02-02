@@ -29,7 +29,8 @@ function LinkedList(seed) {
   }
 
   return {
-    dup: () =>
+    head,
+    copy: () =>
       LinkedList({
         ...head
       }),

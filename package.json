@@ -1,0 +1,26 @@
+{
+  "name": "linked-list",
+  "version": "1.0.0",
+  "description": "Linked list with interface",
+  "main": "main.js",
+  "scripts": {
+    "test": "node tests.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jackson-lenhart/linked-list.git"
+  },
+  "keywords": [
+    "linked",
+    "list"
+  ],
+  "author": "Robot6",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/jackson-lenhart/linked-list/issues"
+  },
+  "homepage": "https://github.com/jackson-lenhart/linked-list#readme",
+  "dependencies": {
+    "colors": "^1.1.2"
+  }
+}
