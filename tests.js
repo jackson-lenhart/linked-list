@@ -1,6 +1,8 @@
 "use strict";
 
-let LinkedList = require("./main");
+const colors = require("colors");
+
+const LinkedList = require("./main");
 
 // helpers
 function Result(passed, msg) {
@@ -16,6 +18,13 @@ const NUMS = LinkedList([1, 2, 3]);
 [
   function copy() {
     let numsCopy = NUMS.copy();
+
+    if (!numsCopy.isValid() || !NUMS.isValid()) {
+      return Result(
+        false,
+        "invalid list"
+      );
+    }
 
     if (numsCopy === NUMS) {
       return Result(
@@ -43,7 +52,15 @@ const NUMS = LinkedList([1, 2, 3]);
         "original has more nodes than copy"
       ) : Result(
         true,
-        "copy"
+        `created valid duplicate of NUMS`
       );
   },
-];
+].forEach(f => {
+  let r = f();
+  r.passed ?
+    console.log(
+      `${f.name} passed: ${r.msg}`.green
+    ) : console.log(
+      `${f.name} failed: ${new Error(r.msg)}`.red
+    );
+});

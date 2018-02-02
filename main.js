@@ -1,10 +1,36 @@
 "use strict";
 
+// helpers
+function isObject(x) {
+  return x.toString() === "[object Object]";
+}
+
 function Node(value) {
   return {
     value,
     next: null
   };
+}
+
+function isNode(n) {
+  let keys = Object.keys(n);
+  keys.sort();
+  let expectedKeys = Object.keys(Node("test"));
+  expectedKeys.sort();
+  if (keys.length !== expectedKeys.length) {
+    return false;
+  }
+
+  let correctTemplate = true;
+  for (let i = 0; i < keys.length; i++) {
+    if (keys[i] !== expectedKeys[i]) {
+      correctTemplate = false;
+    }
+  }
+
+  return correctTemplate &&
+    isObject(n) &&
+    n.next === null || isObject(n.next);
 }
 
 function LinkedList(seed) {
@@ -22,7 +48,7 @@ function LinkedList(seed) {
       temp = temp.next;
     }
   // when seed is an object literal that should mean we are making a copy
-} else if (seed.toString() === "[object Object]") {
+} else if (isObject(seed)) {
     head = seed;
   } else {
     head = Node(seed);
@@ -77,6 +103,16 @@ function LinkedList(seed) {
         temp = temp.next;
       }
       return acc;
+    },
+    isValid: () => {
+      let temp = head;
+      while (temp) {
+        if (!isNode(temp)) {
+          return false;
+        }
+        temp = temp.next;
+      }
+      return true;
     }
   };
 }
