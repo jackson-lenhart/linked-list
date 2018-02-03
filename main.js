@@ -12,6 +12,16 @@ function Node(value) {
   };
 }
 
+function toArray(head) {
+  let temp = head;
+  let arr = [];
+  while (temp) {
+    arr.push(temp.value);
+    temp = temp.next;
+  }
+  return arr;
+}
+
 function isNode(n) {
   let keys = Object.keys(n);
   keys.sort();
@@ -48,7 +58,7 @@ function LinkedList(seed) {
       temp = temp.next;
     }
   // when seed is an object literal that should mean we are making a copy
-} else if (isObject(seed)) {
+  } else if (isObject(seed)) {
     head = seed;
   } else {
     head = Node(seed);
@@ -113,6 +123,11 @@ function LinkedList(seed) {
         temp = temp.next;
       }
       return true;
+    },
+    sort: () => {
+      let arr = toArray(head);
+      arr.sort();
+      return LinkedList(arr);
     }
   };
 }
