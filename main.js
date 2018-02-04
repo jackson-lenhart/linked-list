@@ -24,12 +24,13 @@ function toArray(head) {
 
 function isNode(n) {
   let keys = Object.keys(n);
-  keys.sort();
   let expectedKeys = Object.keys(Node("test"));
-  expectedKeys.sort();
   if (keys.length !== expectedKeys.length) {
     return false;
   }
+
+  keys.sort();
+  expectedKeys.sort();
 
   let correctTemplate = true;
   for (let i = 0; i < keys.length; i++) {
@@ -41,6 +42,22 @@ function isNode(n) {
   return correctTemplate &&
     isObject(n) &&
     n.next === null || isObject(n.next);
+}
+
+function isSorted(head, f) {
+  let currNode = head;
+  while (currNode.next) {
+    let difference = f(currNode.value, currNode.next.value);
+    if (isNaN(difference)) {
+      throw new Error("Sorting function does not return a number for all cases");
+    }
+
+    if (difference > 0) {
+      return false;
+    }
+    currNode = currNode.next;
+  }
+  return true;
 }
 
 function LinkedList(seed) {
@@ -124,10 +141,19 @@ function LinkedList(seed) {
       }
       return true;
     },
-    sort: () => {
-      let arr = toArray(head);
-      arr.sort();
-      return LinkedList(arr);
+    sort: f => {
+      while (!isSorted(head, f)) {
+        let currNode = head;
+        while (currNode.next) {
+          let difference = f(currNode.value, currNode.next.value);
+          if (difference > 0) {
+            let temp = currNode.value;
+            currNode.value = currNode.next.value;
+            currNode.next.value = temp;
+          }
+          currNode = currNode.next;
+        }
+      }
     }
   };
 }
