@@ -74,9 +74,6 @@ function LinkedList(seed) {
       temp.next = Node(seed[i]);
       temp = temp.next;
     }
-  // when seed is an object literal that should mean we are making a copy
-  } else if (isObject(seed)) {
-    head = seed;
   } else {
     head = Node(seed);
   }
@@ -84,9 +81,7 @@ function LinkedList(seed) {
   return {
     head,
     copy: () =>
-      LinkedList({
-        ...head
-      }),
+      LinkedList(toArray(head)),
     map: f => {
       let temp = head;
       while (temp) {

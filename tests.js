@@ -12,8 +12,18 @@ function Result(passed, msg) {
   };
 }
 
+function toArray(head) {
+  let temp = head;
+  let arr = [];
+  while (temp) {
+    arr.push(temp.value);
+    temp = temp.next;
+  }
+  return arr;
+}
+
 // global variables for mocking
-const NUMS = LinkedList([1, 2, 3]);
+const NUMS = LinkedList([2, 1, 4, 6, 3]);
 
 [
   function copiesNums() {
@@ -57,9 +67,8 @@ const NUMS = LinkedList([1, 2, 3]);
   },
   function mapsAddition() {
     let numsCopy = NUMS.copy();
-
     numsCopy.map(x => x + 1);
-    let expectedValues = [2, 3, 4];
+    let expectedValues = toArray(NUMS.head).map(x => x + 1);
     let temp = numsCopy.head;
     let i = 0;
     while (temp) {
@@ -75,6 +84,28 @@ const NUMS = LinkedList([1, 2, 3]);
     return Result(
       true,
       "values map correctly"
+    );
+  },
+  function sortsNums() {
+    let numsCopy = NUMS.copy();
+
+    numsCopy.sort((a, b) => a - b);
+    let sortedOrder = toArray(NUMS.head).sort();
+    let temp = numsCopy.head;
+    let i = 0;
+    while (temp) {
+      if (temp.value !== sortedOrder[i]) {
+        return Result(
+          false,
+          "values not in sorted order"
+        );
+      }
+      temp = temp.next;
+      i++;
+    }
+    return Result(
+      true,
+      "values sort correctly"
     );
   }
 ].forEach(f => {
